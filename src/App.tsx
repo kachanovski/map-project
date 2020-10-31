@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {Map, Placemark, YMaps} from "react-yandex-maps";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const mapState = {
+    width: 800,
+    height: 800,
+    center: [53.54, 27.33],
+    zoom: 8
+};
+
+
+const App = () => {
+    return (
+        <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <YMaps>
+                <Map width={mapState.width} height={mapState.height} defaultState={mapState}
+                     modules={["geoObject.addon.editor"]}>
+                    <Placemark
+                        geometry={[]}
+                        options={{
+                            editorDrawingCursor: "crosshair",
+                            editorMaxPoints: 5,
+                            fillColor: "#00FF00",
+                            // Цвет обводки.
+                            strokeColor: "#0000FF",
+                            // Ширина обводки.
+                            strokeWidth: 5
+                        }}
+                    />
+                </Map>
+            </YMaps>
+        </div>
+    )
 }
 
-export default App;
+export default App
