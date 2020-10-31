@@ -12,11 +12,11 @@ const mapState = {
 
 const App = () => {
 
-    useEffect( () => {
+ /*   useEffect( () => {
         axios.get(`https://search-maps.yandex.ru/v1/?text=Аптека, Минск&type=biz&lang=ru_RU&results=10&apikey=6f1a0a0c-b9b7-49ed-a969-1db3f019a8d1`).then((res) => {
             console.log(res.data)
         })
-    })
+    })*/
 
 
     return (
