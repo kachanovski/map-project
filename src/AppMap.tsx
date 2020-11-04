@@ -1,30 +1,44 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {usePosition} from 'use-position';
 import s from './App.module.css'
-import {Map, Placemark, YMaps, ZoomControl} from "react-yandex-maps";
-import points from "./points.json";
+import {GeolocationControl, Map, Placemark, YMaps} from "react-yandex-maps";
+import {useDispatch, useSelector} from "react-redux";
+import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC} from "./store/MapReducer";
+import {StateType} from "./store/store";
 
 
 const MapApp = () => {
 
     const [hideResults, setHideResults] = useState(false)
+    const dispatch = useDispatch()
+    const coordinates = useSelector<StateType, Array<FeaturesType>>(state => state.map.feature)
+    const myLocation = useSelector<StateType, Array<number>>(state => state.map.myLocation)
+    const center = useSelector<StateType, Array<number>>(state => state.map.center)
+    const zoom = useSelector<StateType, number>(state => state.map.zoom)
+    const [searchValue, setSearchValue] = useState('')
+
+    const watch = true;
+    const {
+        latitude,
+        longitude,
+    } = usePosition(watch);
 
     const mapState = {
         width: 3538,
-        minZoom: 3,
-        center: [32.99054220474171, 3.8141637443059158],
-        zoom: 3,
+        center: center,
+        zoom: zoom,
         controls: [],
+
+    }
+
+    useEffect(() => {
+        dispatch(getPlacemarksTC(searchValue))
+    }, [dispatch, searchValue])
+    const handleMyLocation = () => {
+        const location = [latitude!, longitude!]
+        dispatch(myLocationAC(location, 14))
+        dispatch(centerPositionAC(location))
     };
-
-    /*    useEffect(() => {
-            axios.get(`https://search-maps.yandex.ru/v1/?text=Компьютерные курсы&type=biz&lang=ru_RU&results=500&skip=1500&apikey=6f1a0a0c-b9b7-49ed-a969-1db3f019a8d1`).then((res) => {
-                setFeatures(res.data.features)
-                console.log(features)
-                console.log(res.data.features)
-            })
-        }, [])*/
-
-    console.log(points.features[0].geometry.coordinates)
 
     return (
         <div className={s.app}>
@@ -42,60 +56,52 @@ const MapApp = () => {
 
                 {hideResults &&
                 <div className={s.results}>
-                    {points.features.map(desc => <div key={desc.properties.CompanyMetaData.id} className={s.result}>
-                        <h3>{desc.properties.CompanyMetaData.name}</h3>
-                        <div>
-                            {desc.properties.CompanyMetaData.name}
-                        </div>
-                        <a> {desc.properties.CompanyMetaData.url}</a>
-                        <div>
-                            {desc.properties.CompanyMetaData.address}
-                            {desc.properties.CompanyMetaData.Phones}
-                        </div>
-                    </div>)}
+                    <div className={s.result}></div>
                 </div>}
             </div>
-                <YMaps>
-                    <Map width="100%" height="100vh" defaultState={mapState}
-                         searchInside
-                         modules={["geoObject.addon.editor"]}>
-                        {points.features.map((point) => (
-                            <Placemark
-                                geometry={[point.geometry.coordinates[1], point.geometry.coordinates[0]]}
-                                modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
-                                properties={{
-                                    balloonContentHeader: point.properties.CompanyMetaData.name,
-                                    balloonContentBody: point.properties.CompanyMetaData.address,
-                                    balloonContentFooter: point.properties.CompanyMetaData.url,
-                                    hintContent: "Подсказка"
-                                }}
-                            />
-                        ))}
+
+            <YMaps query={{load: "package.full"}}>
+                <Map width="100%" height="100vh" state={{zoom: zoom, center: center}} defaultState={mapState}
+                     modules={["geoObject.addon.editor", "geolocation", "geocode"]}>
+                    {coordinates.map((c) => (
                         <Placemark
-                            geometry={[53.839362, 27.617904]}
-                            options={{
-                                editorDrawingCursor: "crosshair",
-                                editorMaxPoints: 1,
-                                fillColor: "#00FF00",
-                                // Цвет обводки.
-                                strokeColor: "#0000FF",
-                                // Ширина обводки.
-                                strokeWidth: 5
-                            }}
+                            geometry={[c.geometry.coordinates[1], c.geometry.coordinates[0]]}
+                            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
                             properties={{
-                                balloonContentHeader: "Заголовок",
-                                balloonContentBody: "Содержимое",
-                                balloonContentFooter: "Подвал",
-                                hintContent: "Подсказка"
+                                balloonContentHeader: c.properties.CompanyMetaData.name,
+                                balloonContentBody: c.properties.CompanyMetaData.address,
+                                balloonContentFooter: c.properties.CompanyMetaData.url,
                             }}
                         />
-                        <ZoomControl options={{float: 'right', right: 0}}/>
-                    </Map>
+                    ))}
+                    <Placemark
+                        geometry={[53.917485, 27.604842]}
+                        options={{
+                            editorDrawingCursor: "crosshair",
+                            editorMaxPoints: 1,
+                            fillColor: "#00FF00",
+                            // Цвет обводки.
+                            strokeColor: "#0000FF",
+                            // Ширина обводки.
+                            strokeWidth: 5
+                        }}
+                        properties={{
+                            balloonContentHeader: "It-инкубатор",
+                            balloonContentBody: "Беларусь, Минск,ул. Сурганова, 2",
+                            balloonContentFooter: "http://it-kamasutra.com/",
+                        }}
+                    />
+                    <Placemark
+                        geometry={myLocation}
 
-                </YMaps>
-
-
-
+                        options={{
+                            preset: "islands#circleDotIcon",
+                            iconColor: '#ff0000'
+                        }}
+                    />
+                    <GeolocationControl onClick={handleMyLocation} options={{float: 'right'}}/>
+                </Map>
+            </YMaps>
         </div>
     )
 }

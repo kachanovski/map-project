@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import ReactDOMServer from 'react-dom/server';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios'
 import {Clusterer, Map, Placemark, YMaps, YMapsApi} from 'react-yandex-maps';
 import s from './Balloon.module.css'
 import star from './assets/rating-icon.svg'
