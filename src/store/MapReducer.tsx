@@ -1,5 +1,5 @@
-import {Dispatch} from "redux"
 import {MapsAPI} from "../api/yandex-map-api";
+import {Dispatch} from 'redux';
 
 export type GetPlaceMarks = ReturnType<typeof getPlacemarksAC>
 export type SearchType = ReturnType<typeof setSearchValueAC>
