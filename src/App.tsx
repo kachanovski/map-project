@@ -32,7 +32,7 @@ const mapState = {
   center: [54.86, 27.53],
   zoom: 5
 }
-const points: Array<PointType> = [
+export const points: Array<PointType> = [
   {
     id: 1,
     title: 'ITMouse',

@@ -1,28 +1,28 @@
-import React, {useState, useEffect} from 'react';
-import {PointType} from '../App';
+import React, {useEffect, useState} from 'react';
 import s from './SearchBar.module.css'
 import SearchItem from './SearchItem';
 import {Waypoint} from 'react-waypoint';
+import {FeaturesType} from "../store/MapReducer";
 
 // бокавая панель с результатами поиска
 
 type SearchBarPropsType = {
-    points: Array<PointType>
+    resultArray: Array<FeaturesType>
 }
 
 const SearchBar = (props: SearchBarPropsType) => {
 
-    const totalItems = props.points.length; //размер всего массива
+    const totalItems = props.resultArray.length; //размер всего массива
     const pageSize = 5; //размер подгружаемого массива
 
     const [page, setPage] = useState<number>(1); // номер порции подгружаемых айтемов
-    const [items, setItems] = useState<Array<PointType>>([]); // отображаемые айтемы
+    const [items, setItems] = useState<Array<FeaturesType>>([]); // отображаемые айтемы
     const [hasNextPage, setHasNextPage] = useState(true); // если есть следующие айтемы для отображения - true
     const [startIndex, setStartIndex] = useState<number>(0) // стартовый индекс, откуда начинает вырезаться массив
     const [error, setError] = useState<string>("") // если массив пустой, вернет ошибку
 
     // вырезает из массива количество страниц, равное pageSize
-    const cutArr = (arr: Array<PointType>, startIndex: number,): Array<PointType> => {
+    const cutArr = (arr: Array<FeaturesType>, startIndex: number,): Array<FeaturesType> => {
         let cuttedArr = [...arr].splice(startIndex, pageSize);
         return cuttedArr;
     }
@@ -34,7 +34,7 @@ const SearchBar = (props: SearchBarPropsType) => {
     const getItems = () => {
         if (!hasNextPage) return;
 
-        let nextItems = cutArr(props.points, startIndex);
+        let nextItems = cutArr(props.resultArray, startIndex);
         if (nextItems) {
             if (totalItems === items.length + nextItems.length) {
                 setHasNextPage(false)
@@ -56,13 +56,16 @@ const SearchBar = (props: SearchBarPropsType) => {
         }
     }
 
-    const searchItems = items.map((item, index) =>
-        <SearchItem key={index} number={index + 1} name={item.title}/>);
     if (items.length !== 0) {
         return (
             <div>
                 <div className={s.search_bar}>
-                    {searchItems}
+                    {items.map((item, index) =>
+                        <SearchItem key={index}
+                                    number={index + 1}
+                                    address={item.properties.CompanyMetaData.address}
+                                    url={item.properties.CompanyMetaData.url}
+                                    name={item.properties.CompanyMetaData.name}/>)}
 
                     {hasNextPage && (
                         <Waypoint onEnter={loadMoreItems}>

@@ -1,4 +1,7 @@
 .search_item {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
   border-bottom: 1px solid black;
-  height: 150px;
 }

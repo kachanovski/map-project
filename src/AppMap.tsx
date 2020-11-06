@@ -3,15 +3,17 @@ import {usePosition} from 'use-position';
 import s from './App.module.css'
 import {GeolocationControl, Map, Placemark, YMaps} from "react-yandex-maps";
 import {useDispatch, useSelector} from "react-redux";
-import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC, setSearchValueAC} from "./store/MapReducer";
+import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC} from "./store/MapReducer";
 import {StateType} from "./store/store";
+import SearchBarInMap from "./components/SearchBarInMap";
+import { points } from "./App";
 
 
 const MapApp = () => {
 
     const [hideResults, setHideResults] = useState(false)
     const dispatch = useDispatch()
-    const coordinates = useSelector<StateType, Array<FeaturesType>>(state => state.map.feature)
+    const feature = useSelector<StateType, Array<FeaturesType>>(state => state.map.feature)
     const myLocation = useSelector<StateType, Array<number>>(state => state.map.myLocation)
     const center = useSelector<StateType, Array<number>>(state => state.map.center)
     const zoom = useSelector<StateType, number>(state => state.map.zoom)
@@ -43,13 +45,11 @@ const MapApp = () => {
 
     const onSubmitSearch = () => {
         dispatch(getPlacemarksTC(searchValue))
-        console.log("1")
+        setHideResults(true)
     }
 
     const onChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
-        console.log(searchValue)
-        console.log(search)
     }
 
 
@@ -79,11 +79,10 @@ const MapApp = () => {
                         : <button onClick={() => setHideResults(true)}>show</button>}
                 </div>
 
-
-                {hideResults &&
-                <div className={s.results}>
-                    <div className={s.result}></div>
+                {hideResults && <div className={s.results}>
+                    <SearchBarInMap resultArray={feature} />
                 </div>}
+
             </div>
 
             <YMaps query={{lang: 'ru_RU', load: 'package.full'}}>
@@ -93,7 +92,7 @@ const MapApp = () => {
                      state={{zoom: zoom, center: center}}
                      defaultState={mapState}
                      modules={["geoObject.addon.editor", "geolocation", "geocode"]}>
-                    {coordinates.map((c) => {
+                    {feature.map((c) => {
                         return <Placemark
                             geometry={[c.geometry.coordinates[1], c.geometry.coordinates[0]]}
                             modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}

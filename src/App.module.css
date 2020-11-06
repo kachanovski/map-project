@@ -1,5 +1,6 @@
 .app {
     width: 100%;
+    overflow: no-content;
 }
 
 .search_container {
@@ -7,11 +8,12 @@
     height: 100vh;
     display: grid;
     grid-template-rows: 8% 90%;
-    margin: 10px 10px 5px 10px;
+    margin: 0 10px 0 10px;
     z-index: 100000000;
 }
 
 .search {
+    margin-top: 10px;
 
 }
 
@@ -64,6 +66,7 @@
 
 .results {
     overflow-y: auto;
+    background-color: white;
 }
 
 .result {
