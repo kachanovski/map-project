@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Clusterer, Map, Placemark, YMaps, YMapsApi} from 'react-yandex-maps';
+import './App.css'
 import s from './Balloon.module.css'
 import star from './assets/rating-icon.svg'
 import instagram from './assets/instagram-logo.svg'
 import facebook from './assets/facebook-logo.svg'
 import email from './assets/email-symbol.svg'
+import SearchBar from './components/SearchBar';
 
-type AddressType = {
+export type AddressType = {
   country: string
   city: string
   street: string
 }
-type PointType = {
+export type PointType = {
   id: number
   title: string
   category: string
@@ -20,7 +22,7 @@ type PointType = {
   address: AddressType
   coords: Array<number>
 }
-type AnyObjectType = {
+export type AnyObjectType = {
   [key: string]: any;
 }
 
@@ -90,6 +92,270 @@ const points: Array<PointType> = [
       street: '59-66 Greenfield Rd, Whitechapel',
     },
     coords: [51.515944, -0.065272]
+  },
+  {
+    id: 6,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [50.047211, 14.302823]
+  },
+  {
+    id: 7,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [50.878013, 7.122830]
+  },
+  {
+    id: 8,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [50.847527, 8.775874]
+  },
+  {
+    id: 9,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [41.619965, -4.748234]
+  },
+  {
+    id: 10,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [41.156260, -8.595950]
+  },
+  {
+    id: 11,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [68.482550, 22.112776]
+  },
+  {
+    id: 12,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [49.841755, 24.031518]
+  },
+  {
+    id: 13,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [52.040217, 29.243495]
+  },
+  {
+    id: 14,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [47.486990, 19.063229]
+  },
+  {
+    id: 15,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [42.285010, 18.847056]
+  },
+  {
+    id: 16,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [57.823578, 28.291428]
+  },
+  {
+    id: 17,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [54.769127, 32.002203]
+  },
+  {
+    id: 18,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [54.540790, 36.313569]
+  },
+  {
+    id: 19,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [57.013000, 35.925140]
+  },
+  {
+    id: 20,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [58.812510, 33.396267]
+  },
+  {
+    id: 21,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [59.654518, 33.206494]
+  },
+  {
+    id: 22,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [61.776412, 34.370594]
+  },
+  {
+    id: 23,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [60.401231, 33.023449]
+  },
+  {
+    id: 24,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [59.373578, 28.624057]
+  },
+  {
+    id: 25,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [58.404655, 24.651477]
+  },
+  {
+    id: 26,
+    title: 'London School Of Commerce & IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [57.143293, 24.844610]
+  },
+  {
+    id: 27,
+    title: 'London School IT',
+    category: 'IT school',
+    img: 'https://traveldealworld.net/wp-content/uploads/2018/08/Getting-the-Best-of-Both-Luxury-and-Nature.jpg',
+    address: {
+      country: 'United Kingdom',
+      city: 'London',
+      street: '59-66 Greenfield Rd, Whitechapel',
+    },
+    coords: [47.040001, 39.741600]
   }
 ]
 
@@ -114,7 +380,6 @@ const Balloon = (props: BalloonPropsType) => {
   const [open, setOpen] = useState<boolean>(props.isOpen);
   if (open) {
     return (
-
       <div className={s.balloon_card}>
         <button className={s.close} onClick={() => setOpen(false)}>&times;</button>
         <div className={s.balloon_top}>
@@ -123,7 +388,6 @@ const Balloon = (props: BalloonPropsType) => {
         <div className={s.balloon_text}>
           <h3 className={s.title}>{props.title}</h3>
           <div className={s.category}>{props.category}</div>
-
           <div className={s.social}>
             <div className={s.rating}>(5)
               <img className={s.rating_star} src={star} alt="Rating"/>
@@ -138,13 +402,10 @@ const Balloon = (props: BalloonPropsType) => {
               <a href="#"><img className={s.link} src={email} alt="email"/></a>
             </div>
           </div>
-
-
           <div className={s.str}>{props.street}</div>
           <div className={s.place}>{props.country}, {props.city}</div>
         </div>
       </div>
-
     )
   } else {
     return <></>
@@ -166,9 +427,10 @@ const App = () => {
     setState({...state, selectedPoint: point});
   }
 
-
   return (
-    <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <div className="App">
+      <SearchBar points={points}/>
+    <div  className="map">
       <YMaps query={{lang: 'ru_RU', load: 'package.full'}}>
         <Map width={mapState.width}
              height={mapState.height}
@@ -231,6 +493,7 @@ const App = () => {
           </Clusterer>}
         </Map>
       </YMaps>
+    </div>
     </div>
   )
 }
