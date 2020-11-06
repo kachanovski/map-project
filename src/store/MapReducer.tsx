@@ -2,7 +2,7 @@ import {Dispatch} from "redux"
 import {MapsAPI} from "../api/yandex-map-api";
 
 export type GetPlaceMarks = ReturnType<typeof getPlacemarksAC>
-export type SearchType = ReturnType<typeof searchAC>
+export type SearchType = ReturnType<typeof setSearchValueAC>
 export type MyLocationType = ReturnType<typeof myLocationAC>
 export type CenterPositionType = ReturnType<typeof centerPositionAC>
 
@@ -32,6 +32,7 @@ export type InitialStateType = {
     myLocation: Array<number>
     center: Array<number>
     zoom: number
+    search: string
 }
 
 let InitialState: InitialStateType = {
@@ -51,7 +52,8 @@ let InitialState: InitialStateType = {
     ],
     myLocation: [],
     center: [32.99054220474171, 3.8141637443059158],
-    zoom: 3
+    zoom: 3,
+    search: ''
 }
 
 export const MapReducer = (state = InitialState, action: ActionsType) => {
@@ -75,6 +77,12 @@ export const MapReducer = (state = InitialState, action: ActionsType) => {
                 ...state,
                 center: action.center
             }
+        case "MAPS/SEARCH_VALUE":
+            return {
+                ...state,
+                searchValue: action.search
+            }
+
         default:
             return state
     }
@@ -86,9 +94,9 @@ export const getPlacemarksAC = (feature: Array<FeaturesType>) => {
     } as const
 }
 
-export const searchAC = (searchValue: string) => {
+export const setSearchValueAC = (search: string) => {
     return {
-        type: 'MAPS/SEARCH_VALUE', searchValue
+        type: 'MAPS/SEARCH_VALUE', search
     } as const
 }
 export const myLocationAC = (location: Array<number>, zoom: number) => {
@@ -102,10 +110,10 @@ export const centerPositionAC = (center: Array<number>) => {
     } as const
 }
 
-export const getPlacemarksTC = (searchValue: string) => {
+export const getPlacemarksTC = (search: string) => {
     return (dispatch: Dispatch) => {
-        MapsAPI.getResult(searchValue).then(res => {
-            debugger
+        debugger
+        MapsAPI.getResult(search).then(res => {
             dispatch(getPlacemarksAC(res.data.features))
         }).catch(e => {
             }
