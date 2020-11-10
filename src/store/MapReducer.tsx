@@ -80,7 +80,7 @@ export const MapReducer = (state = InitialState, action: ActionsType) => {
         case "MAPS/SEARCH_VALUE":
             return {
                 ...state,
-                searchValue: action.search
+                search: action.search
             }
 
         default:

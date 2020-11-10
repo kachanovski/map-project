@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './SearchItem.module.css'
-import star from '../assets/rating-icon.svg';
+import star from '../../../assets/rating-icon.svg';
 
 // элемент внутри панели поиска
 

@@ -7,7 +7,7 @@ import star from './assets/rating-icon.svg'
 import instagram from './assets/instagram-logo.svg'
 import facebook from './assets/facebook-logo.svg'
 import email from './assets/email-symbol.svg'
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBar/SearchBar';
 
 export type AddressType = {
   country: string

@@ -82,5 +82,14 @@
     justify-content: center;
 }
 
+.voice_search {
+    position: absolute;
+    margin-left: 20px;
+    left: 100%;
+    top: 10px;
+
+}
+
+
 
 
