@@ -22,6 +22,7 @@ type PropertiesType = {
 }
 
 type CompanyMetaDataType = {
+    id: string
     name: string
     address: string
     url: string
@@ -43,6 +44,7 @@ let InitialState: InitialStateType = {
             },
             properties: {
                 CompanyMetaData: {
+                    id: '',
                     name: '',
                     address: '',
                     url: ''
@@ -112,7 +114,6 @@ export const centerPositionAC = (center: Array<number>) => {
 
 export const getPlacemarksTC = (search: string) => {
     return (dispatch: Dispatch) => {
-        debugger
         MapsAPI.getResult(search).then(res => {
             dispatch(getPlacemarksAC(res.data.features))
         }).catch(e => {

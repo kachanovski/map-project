@@ -8,20 +8,30 @@ import {StateType} from './store/store';
 import SearchBarInMap from './components/SearchBar/SearchBarInMap';
 import {points} from './App';
 import VoiceSearch from './components/VoiceSearch/VoiceSearch';
+import BookmarksBar from './components/Bookmarks/BookmarksBar/BookmarksBar';
+import {
+  BookmarksType,
+  deleteFromBookmarksAC,
+  setBookmarksAC,
+  toggleSavingInBookmarksAC
+} from './store/BookmarksReducer';
+import BookmarksButton from './components/Bookmarks/BookmarksButton/BookmarksButton';
 
 
 const AppMap = () => {
 
   const [hideResults, setHideResults] = useState(true)
+  const [hideBookmarks, setHideBookmarks] = useState(true)
   const dispatch = useDispatch()
   const feature = useSelector<StateType, Array<FeaturesType>>(state => state.map.feature)
+  const bookmarks = useSelector<StateType, BookmarksType>(state => state.books.bookmarks)
   const myLocation = useSelector<StateType, Array<number>>(state => state.map.myLocation)
   const center = useSelector<StateType, Array<number>>(state => state.map.center)
   const zoom = useSelector<StateType, number>(state => state.map.zoom)
   const search = useSelector<StateType, string>(state => state.map.search)
+  const savedInBookmarks = useSelector<StateType, Array<string>>(state => state.books.savedInBookmarks)
 
   const [searchValue, setSearchValue] = useState('')
-
   const watch = true;
   const {
     latitude,
@@ -53,6 +63,30 @@ const AppMap = () => {
   const onChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.currentTarget.value)
   }
+  const showSearchBar = () => {
+    if (!hideBookmarks) {
+      setHideBookmarks(true)
+    }
+    setHideResults(false)
+  }
+  const toggleBookmarks = () => {
+    if (!hideResults) {
+      setHideResults(true)
+    }
+    setHideBookmarks(!hideBookmarks)
+  }
+
+  const setBookmarks = (id: string) => {
+    const bookmark = feature.filter(b =>
+      b.properties.CompanyMetaData.id === id)
+    dispatch(setBookmarksAC(bookmark));
+    dispatch(toggleSavingInBookmarksAC(true, id));
+  }
+
+  const deleteFromBookmarks = (id: string) => {
+    dispatch(deleteFromBookmarksAC(id));
+    dispatch(toggleSavingInBookmarksAC(false, id));
+  }
 
   return (
     <div className={s.app}>
@@ -74,17 +108,30 @@ const AppMap = () => {
                  type="submit"
                  className={s.button}/>
           {hideResults
-            ? <button onClick={() => setHideResults(false)}>show</button>
+            ? <button onClick={showSearchBar}>show</button>
             : <button onClick={() => setHideResults(true)}>hide</button>}
         </div>
 
-         {/*Voice Search*/}
+        {/*Voice Search*/}
         <div className={s.voice_search}>
-          <VoiceSearch search={onSubmitSearch} setHideResults={setHideResults}/>
+          <VoiceSearch search={onSubmitSearch}
+                       setHideResults={setHideResults}/>
+          {/*Bookmarks Button*/}
+          <BookmarksButton setHideBookmarks={toggleBookmarks}
+                           buttonValue={bookmarks.length}/>
         </div>
 
         {!hideResults && <div className={s.results}>
-          <SearchBarInMap resultArray={feature}/>
+          {/*Search Bar*/}
+          <SearchBarInMap resultArray={feature}
+                          setBookmarks={setBookmarks}
+                          savedInBookmarks={savedInBookmarks}/>
+        </div>}
+
+        {/*Bookmarks Bar*/}
+        {!hideBookmarks && <div className={s.bookmarks}>
+          <BookmarksBar bookmarksArray={bookmarks}
+                        deleteFromBookmarks={deleteFromBookmarks}/>
         </div>}
 
       </div>

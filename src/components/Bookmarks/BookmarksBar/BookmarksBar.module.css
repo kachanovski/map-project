@@ -1,0 +1,11 @@
+.bookmarks_bar {
+  width: 300px;
+  line-height: 42px;
+  padding: 0 10px;
+  color: #212121;
+  border-right: none;
+  float: left;
+  font-size: 18px;
+  background-color: white;
+  margin-left: 20px;
+}

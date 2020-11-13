@@ -7,7 +7,7 @@ import star from './assets/rating-icon.svg'
 import instagram from './assets/instagram-logo.svg'
 import facebook from './assets/facebook-logo.svg'
 import email from './assets/email-symbol.svg'
-import SearchBar from './components/SearchBar/SearchBar';
+// import SearchBar from './components/SearchBar/SearchBar';
 
 export type AddressType = {
   country: string
@@ -429,7 +429,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <SearchBar points={points}/>
+      {/*<SearchBar points={points}/>*/}
     <div  className="map">
       <YMaps query={{lang: 'ru_RU', load: 'package.full'}}>
         <Map width={mapState.width}
