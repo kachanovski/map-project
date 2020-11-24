@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import s from './SearchBar.module.css'
-import SearchItem from './SearchItem';
+import SearchItem from './SearchItem/SearchItem';
 import {Waypoint} from 'react-waypoint';
-import {FeaturesType} from "../store/MapReducer";
+import {FeaturesType} from "../../store/MapReducer";
 
 // бокавая панель с результатами поиска
 
 type SearchBarPropsType = {
     resultArray: Array<FeaturesType>
+    setBookmarks: (pointName: string) => void
+    savedInBookmarks: Array<string>
 }
 
 const SearchBar = (props: SearchBarPropsType) => {
@@ -45,10 +47,7 @@ const SearchBar = (props: SearchBarPropsType) => {
         }
         if (items.length === 0) {
             setError("Ничего не нашел :(")
-        }
-        ;
-
-    }
+        }}
 
     const loadMoreItems = () => {
         if (page > 1) {
@@ -61,17 +60,21 @@ const SearchBar = (props: SearchBarPropsType) => {
             <div>
                 <div className={s.search_bar}>
                     {items.map((item, index) =>
-                        <SearchItem key={index}
+                        <SearchItem key={item.properties.CompanyMetaData.id}
                                     number={index + 1}
                                     coordinate={item.geometry.coordinates}
+                                    id={item.properties.CompanyMetaData.id}
                                     address={item.properties.CompanyMetaData.address}
                                     url={item.properties.CompanyMetaData.url}
-                                    name={item.properties.CompanyMetaData.name}/>)}
+                                    name={item.properties.CompanyMetaData.name}
+                                    setBookmarks={props.setBookmarks}
+                                    savedInBookmarks={props.savedInBookmarks}
+                        />)}
 
                     {hasNextPage && (
-                        <Waypoint onEnter={loadMoreItems}>
-                            <div>Loading...</div>
-                        </Waypoint>
+                      <Waypoint onEnter={loadMoreItems}>
+                          <div>Loading...</div>
+                      </Waypoint>
                     )
                     }
                 </div>

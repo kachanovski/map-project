@@ -23,6 +23,7 @@ type PropertiesType = {
 }
 
 type CompanyMetaDataType = {
+    id: string
     name: string
     address: string
     url: string
@@ -44,6 +45,7 @@ let InitialState: InitialStateType = {
             },
             properties: {
                 CompanyMetaData: {
+                    id: '',
                     name: '',
                     address: '',
                     url: ''
@@ -81,7 +83,7 @@ export const MapReducer = (state = InitialState, action: ActionsType) => {
         case "MAPS/SEARCH_VALUE":
             return {
                 ...state,
-                searchValue: action.search
+                search: action.search
             }
         case "MAPS/SET_ZOOM":
             return {

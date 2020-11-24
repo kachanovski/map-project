@@ -1,9 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleWare from "redux-thunk"
 import { MapReducer } from "./MapReducer";
+import {BookmarksReducer} from './BookmarksReducer';
 
 let reducers = combineReducers({
-   map: MapReducer
+   map: MapReducer,
+   books: BookmarksReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare))

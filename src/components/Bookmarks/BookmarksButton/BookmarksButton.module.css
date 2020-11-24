@@ -1,0 +1,8 @@
+.bookmarks_btn {
+  margin-left: 10px;
+  display: inline-block;
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%
+}
