@@ -3,15 +3,15 @@ import {usePosition} from 'use-position';
 import s from './App.module.css'
 import {GeolocationControl, Map, Placemark, YMaps} from "react-yandex-maps";
 import {useDispatch, useSelector} from "react-redux";
-import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC} from "./store/MapReducer";
+import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC, setZoomAC} from "./store/MapReducer";
 import {StateType} from "./store/store";
 import SearchBarInMap from "./components/SearchBarInMap";
-import { points } from "./App";
+import {points} from "./App";
 
 
 const MapApp = () => {
 
-    const [hideResults, setHideResults] = useState(true)
+    const [hideResults, setHideResults] = useState<boolean>(false)
     const dispatch = useDispatch()
     const feature = useSelector<StateType, Array<FeaturesType>>(state => state.map.feature)
     const myLocation = useSelector<StateType, Array<number>>(state => state.map.myLocation)
@@ -19,7 +19,7 @@ const MapApp = () => {
     const zoom = useSelector<StateType, number>(state => state.map.zoom)
     const search = useSelector<StateType, string>(state => state.map.search)
 
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState<string>('')
 
     const watch = true;
     const {
@@ -31,7 +31,9 @@ const MapApp = () => {
         width: 3538,
         center: center,
         zoom: zoom,
-        controls: []
+        controls: [],
+        minZoom: 3,
+        maxZoom: 20,
     }
 
     useEffect(() => {
@@ -44,8 +46,10 @@ const MapApp = () => {
         dispatch(centerPositionAC(location))
     };
 
-    const onSubmitSearch = () => {
-        dispatch(getPlacemarksTC(searchValue))
+    const onSubmitSearch = async () => {
+        await dispatch(getPlacemarksTC(searchValue))
+        dispatch(setZoomAC(11))
+        dispatch(centerPositionAC([feature[0].geometry.coordinates[1], feature[0].geometry.coordinates[0]]))
         setHideResults(true)
     }
 
@@ -78,7 +82,7 @@ const MapApp = () => {
                 </div>
 
                 {hideResults && <div className={s.results}>
-                    <SearchBarInMap resultArray={feature} />
+                    <SearchBarInMap resultArray={feature}/>
                 </div>}
 
             </div>
@@ -86,7 +90,10 @@ const MapApp = () => {
             <YMaps query={{lang: 'ru_RU', load: 'package.full'}}>
                 <Map width="100%"
                      height="100vh"
-
+                     options={{
+                         maxAnimationZoomDifference: 50,
+                         maxZoom: 40,
+                     }}
                      state={{zoom: zoom, center: center}}
                      defaultState={mapState}
                      modules={["geoObject.addon.editor", "geolocation", "geocode"]}>
@@ -115,7 +122,6 @@ const MapApp = () => {
                     />
                     <Placemark
                         geometry={myLocation}
-
                         options={{
                             preset: "islands#circleDotIcon",
                             iconColor: '#ff0000'

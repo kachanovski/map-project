@@ -5,8 +5,9 @@ export type GetPlaceMarks = ReturnType<typeof getPlacemarksAC>
 export type SearchType = ReturnType<typeof setSearchValueAC>
 export type MyLocationType = ReturnType<typeof myLocationAC>
 export type CenterPositionType = ReturnType<typeof centerPositionAC>
+export type SetZoomType = ReturnType<typeof setZoomAC>
 
-export type ActionsType = GetPlaceMarks | SearchType | MyLocationType | CenterPositionType
+export type ActionsType = GetPlaceMarks | SearchType | MyLocationType | CenterPositionType | SetZoomType
 
 export type FeaturesType = {
     geometry: CoordinatesType
@@ -82,6 +83,11 @@ export const MapReducer = (state = InitialState, action: ActionsType) => {
                 ...state,
                 searchValue: action.search
             }
+        case "MAPS/SET_ZOOM":
+            return {
+                ...state,
+                zoom: action.zoom
+            }
 
         default:
             return state
@@ -109,14 +115,17 @@ export const centerPositionAC = (center: Array<number>) => {
         type: 'MAPS/CENTER_POSITION', center
     } as const
 }
+export const setZoomAC = (zoom: number) => {
+    return {
+        type: 'MAPS/SET_ZOOM', zoom
+    } as const
+}
 
-export const getPlacemarksTC = (search: string) => {
-    return (dispatch: Dispatch) => {
-        debugger
-        MapsAPI.getResult(search).then(res => {
-            dispatch(getPlacemarksAC(res.data.features))
-        }).catch(e => {
-            }
-        )
+export const getPlacemarksTC = (search: string) => async (dispatch: Dispatch) => {
+    try {
+        const items = await MapsAPI.getResult(search)
+        dispatch(getPlacemarksAC(items.data.features))
+    } catch (e) {
+
     }
 }

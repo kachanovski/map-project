@@ -63,6 +63,7 @@ const SearchBar = (props: SearchBarPropsType) => {
                     {items.map((item, index) =>
                         <SearchItem key={index}
                                     number={index + 1}
+                                    coordinate={item.geometry.coordinates}
                                     address={item.properties.CompanyMetaData.address}
                                     url={item.properties.CompanyMetaData.url}
                                     name={item.properties.CompanyMetaData.name}/>)}
