@@ -3,7 +3,7 @@ import {usePosition} from 'use-position';
 import s from './App.module.css'
 import {GeolocationControl, Map, Placemark, YMaps} from 'react-yandex-maps';
 import {useDispatch, useSelector} from 'react-redux';
-import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC} from './store/MapReducer';
+import {centerPositionAC, FeaturesType, getPlacemarksTC, myLocationAC, setZoomAC} from './store/MapReducer';
 import {StateType} from './store/store';
 import SearchBarInMap from './components/SearchBar/SearchBarInMap';
 import {points} from './App';
